@@ -433,6 +433,16 @@ bool VideoDriver_SDL_Base::PollEvent()
 			HandleMouseEvents();
 			break;
 
+		case SDL_MULTIGESTURE: {
+			float dist = ev.mgesture.dDist;
+
+			if (fabsf(dist) >= 1)
+				_cursor.wheel += (int)dist;
+
+			HandleMouseEvents();
+			break;
+		}
+
 		case SDL_QUIT:
 			HandleExitGameRequest();
 			break;
