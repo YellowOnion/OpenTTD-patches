@@ -395,6 +395,8 @@ bool VideoDriver_SDL_Base::PollEvent()
 			} else if (ev.wheel.y < 0) {
 				_cursor.wheel++;
 			}
+			_cursor.h_wheel += ev.wheel.x * _settings_client.gui.scrollwheel_multiplier;
+			_cursor.v_wheel -= ev.wheel.y * _settings_client.gui.scrollwheel_multiplier;
 			break;
 
 		case SDL_MOUSEBUTTONDOWN:
