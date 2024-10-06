@@ -21,6 +21,7 @@
 
 #include "safeguards.h"
 
+#include "debug.h"
 /**
  * Get the TimerGameTick::TickCounter tick of a given date.
  * @param start_date The date when the timetable starts.
@@ -243,6 +244,18 @@ CommandCost CmdBulkChangeTimetable(DoCommandFlag flags, VehicleID veh, ModifyTim
 			if (order == nullptr || order->IsType(OT_IMPLICIT)) continue;
 
 			Command<CMD_CHANGE_TIMETABLE>::Do(DC_EXEC, v->index, order_number, mtf, data);
+		}
+
+		if (data == 0 && mtf != MTF_TRAVEL_SPEED) {
+			for (Vehicle *w = v->orders->GetFirstSharedVehicle(); w != nullptr; w = w->NextShared()) {
+				w->lateness_counter = 0;
+				ClrBit(w->vehicle_flags, VF_TIMETABLE_STARTED);
+
+				w->timetable_start = 0;
+				w->ResetDepotUnbunching();
+
+				SetWindowDirty(WC_VEHICLE_TIMETABLE, w->index);
+			}
 		}
 	}
 
