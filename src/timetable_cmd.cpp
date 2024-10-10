@@ -509,10 +509,10 @@ void UpdateVehicleTimetable(Vehicle *v, bool travelling)
 		if (v->timetable_start != 0) {
 			v->lateness_counter = TimerGameTick::counter - v->timetable_start;
 			v->timetable_start = 0;
-		}
 
-		SetBit(v->vehicle_flags, VF_TIMETABLE_STARTED);
-		SetWindowDirty(WC_VEHICLE_TIMETABLE, v->index);
+			SetBit(v->vehicle_flags, VF_TIMETABLE_STARTED);
+			SetWindowDirty(WC_VEHICLE_TIMETABLE, v->index);
+		}
 	}
 
 	if (!HasBit(v->vehicle_flags, VF_TIMETABLE_STARTED)) return;
